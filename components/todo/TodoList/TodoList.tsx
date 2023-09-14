@@ -15,6 +15,10 @@ type Props = {
 export default function TodoList({ todos, setTodos }: Props) {
   if (!todos?.length) return <p>No Todos Available</p>;
 
+  // TODO:
+  // - add test for catching undefined id
+  // - add test for validating the checkbox state
+  // - replace useState with useContext
   const sortedTodos: Todo[] = todos.sort((a, b) => b.id - a.id);
 
   return (

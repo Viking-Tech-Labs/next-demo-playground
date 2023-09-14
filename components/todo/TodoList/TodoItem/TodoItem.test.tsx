@@ -1,15 +1,19 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
+import { Todo } from "../TodoList";
+
 import TodoItem from "./TodoItem";
 
-const mockTodo = {
+// A mock Todo item to be used for testing
+const mockTodo: Todo = {
   userId: 1,
   title: "Wave hello! 👋",
   completed: false,
   id: 1,
 };
 
+// Mock function to simulate the setTodos function passed as a prop to the component
 const mockSetTodos = jest.fn();
 
 describe("AddTodo", () => {
