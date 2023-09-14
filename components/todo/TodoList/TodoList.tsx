@@ -13,20 +13,15 @@ type Props = {
 };
 
 export default function TodoList({ todos, setTodos }: Props) {
-  let content;
-  if (todos.length === 0) {
-    content = <p>No Todos Available</p>;
-  } else {
-    const sortedTodos = todos.sort((a, b) => b.id - a.id);
+  if (!todos?.length) return <p>No Todos Available</p>;
 
-    content = (
-      <>
-        {sortedTodos.map((todo) => (
-          <TodoItem key={todo.id} todo={todo} setTodos={setTodos} />
-        ))}
-      </>
-    );
-  }
+  const sortedTodos: Todo[] = todos.sort((a, b) => b.id - a.id);
 
-  return content;
+  return (
+    <>
+      {sortedTodos.map((todo) => (
+        <TodoItem key={todo.id} todo={todo} setTodos={setTodos} />
+      ))}
+    </>
+  );
 }
