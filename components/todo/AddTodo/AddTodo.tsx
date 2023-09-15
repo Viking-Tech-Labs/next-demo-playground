@@ -26,9 +26,6 @@ export default function AddItemForm({ setTodos }: Props) {
     setItem("");
   };
 
-  // TODO:
-  // - test that title label is hidden
-
   return (
     <form onSubmit={handleSubmit} className="flex items-center gap-2">
       <label hidden htmlFor="title">
@@ -48,7 +45,7 @@ export default function AddItemForm({ setTodos }: Props) {
       <button
         type="submit"
         className="max-w-xs rounded-2xl border-2 border-solid border-black bg-green-500 p-2 text-xl text-black hover:cursor-pointer hover:bg-green-400 disabled:bg-gray-300"
-        disabled={!!item}
+        disabled={!item ? true : false}
       >
         Submit
       </button>

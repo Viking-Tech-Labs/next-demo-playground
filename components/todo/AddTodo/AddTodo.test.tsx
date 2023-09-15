@@ -25,6 +25,15 @@ describe("AddTodo", () => {
 
       expect(button).toBeDisabled(); // ASSERT
     });
+
+    it("should render a hidden label", () => {
+      render(<AddTodo setTodos={mockSetTodos} />); // ARRANGE
+
+      //ACT
+      const label = screen.queryByText("New Todo");
+
+      expect(label).not.toBeVisible(); // ASSERT
+    });
   });
 
   describe("Behavior", () => {
@@ -70,6 +79,8 @@ describe("AddTodo", () => {
       const button = screen.getByRole("button", {
         name: "Submit",
       });
+
+      expect(button).not.toBeDisabled();
       await userEvent.click(button);
 
       expect(mockSetTodos).toBeCalled(); // ASSERT
