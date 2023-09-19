@@ -132,6 +132,8 @@ Here's how the directory structure might look for integration tests:
 
 ```
 - __tests__/
+  |- __mocks__/
+    |- server.ts
   |- integration/
     |- testA.test.tsx
     |- testB.test.tsx
