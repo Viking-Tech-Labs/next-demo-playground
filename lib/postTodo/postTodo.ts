@@ -1,6 +1,6 @@
 import { Todo } from "@/components/todo/TodoList/TodoList";
 
-export default async function postTodo(item: string): Promise<Todo> {
+async function mockPostTodo(item: string): Promise<Todo> {
   {
     /* Example only. If multiple users, you would need 
             the correct userId value here  */
@@ -22,3 +22,34 @@ export default async function postTodo(item: string): Promise<Todo> {
 
   return await res.json();
 }
+
+let idCount = 1;
+
+async function devPostTodo(item: string): Promise<Todo> {
+  return new Promise((resolve, reject) => {
+    try {
+      resolve({
+        id: idCount++,
+        userId: 1,
+        title: item,
+        completed: false,
+      } as Todo);
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
+
+/**
+ * Environment-sensitive Todo post function.
+ *
+ * Uses `mockPostTodo` function in test environments, and `devPostTodo` in development.
+ *
+ */
+let postTodos = devPostTodo;
+
+if (!process.env.NODE_ENV || process.env.NODE_ENV === "test") {
+  postTodos = mockPostTodo;
+}
+
+export default postTodos;

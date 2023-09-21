@@ -36,13 +36,6 @@ export default function TodoItem({ todo, setTodos }: Props) {
 
   return (
     <article className="my-4 flex items-center justify-between">
-      <label
-        className="text-2xl hover:underline"
-        data-testid="todo-item"
-        htmlFor={todo.id.toString()}
-      >
-        {todo.title}
-      </label>
       <div className="flex items-center gap-4">
         <input
           type="checkbox"
@@ -52,15 +45,21 @@ export default function TodoItem({ todo, setTodos }: Props) {
           onChange={handleChange}
           className="min-h-[2rem] min-w-[2rem]"
         />
-
-        <button
-          data-testid="delete-button"
-          onClick={handleDelete}
-          className="max-w-xs rounded-2xl border-2 border-solid border-black bg-red-400 p-3 text-xl text-black hover:cursor-pointer hover:bg-red-300"
+        <label
+          className="text-2xl hover:underline"
+          data-testid="todo-item"
+          htmlFor={todo.id.toString()}
         >
-          <Trash2 />
-        </button>
+          {todo.title}
+        </label>
       </div>
+      <button
+        data-testid="delete-button"
+        onClick={handleDelete}
+        className="max-w-xs rounded-2xl border-2 border-solid border-black bg-red-400 p-3 text-xl text-black hover:cursor-pointer hover:bg-red-300"
+      >
+        <Trash2 />
+      </button>
     </article>
   );
 }
