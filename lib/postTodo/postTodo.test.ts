@@ -1,35 +1,36 @@
-import { rest } from "msw";
-
 import postTodo from "./postTodo";
 
-import { useFakeServer } from "@/__tests__/__mocks__/server";
+import { useMockServer } from "@/__tests__/__mocks__/server";
+import { todoFailHandlers } from "@/__tests__/__mocks__/todoFailHandlers";
+import { todoSuccessHandlers } from "@/__tests__/__mocks__/todoSuccessHandlers";
 
 describe("postTodo lib function", () => {
-  const server = useFakeServer();
+  describe("success", () => {
+    useMockServer(todoSuccessHandlers);
 
-  it("should return the posted todo item", async () => {
-    const postedTodo = await postTodo("write tests");
-    expect(postedTodo).toEqual({
-      userId: 1,
-      title: "write tests",
-      completed: false,
-      id: 5,
+    it("should return the posted todo item", async () => {
+      const postedTodo = await postTodo("write tests");
+      expect(postedTodo).toEqual({
+        userId: 1,
+        title: "write tests",
+        completed: false,
+        id: 5,
+      });
     });
   });
 
-  it("should fail with an error", async () => {
-    server.use(
-      rest.post("/todos", (req, res, ctx) => {
-        return res(ctx.status(400));
-      }),
-    );
-    expect.assertions(1);
-    try {
-      await postTodo("write tests");
-    } catch (e) {
-      if (e instanceof Error) {
-        expect(e.message).toEqual("Failed to post new todo");
+  describe("failed", () => {
+    useMockServer(todoFailHandlers);
+
+    it("should fail with an error", async () => {
+      expect.assertions(1);
+      try {
+        await postTodo("write tests");
+      } catch (e) {
+        if (e instanceof Error) {
+          expect(e.message).toEqual("Failed to post new todo");
+        }
       }
-    }
+    });
   });
 });

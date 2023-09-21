@@ -2,7 +2,8 @@ import { rest } from "msw";
 
 import deleteTodo from "./deleteTodo";
 
-import { useFakeServer } from "@/__tests__/__mocks__/server";
+import { useMockServer } from "@/__tests__/__mocks__/server";
+import { todoSuccessHandlers } from "@/__tests__/__mocks__/todoSuccessHandlers";
 
 const mockTodo = {
   userId: 1,
@@ -12,7 +13,7 @@ const mockTodo = {
 };
 
 describe("deleteTodo lib function", () => {
-  const server = useFakeServer();
+  const server = useMockServer(todoSuccessHandlers);
 
   it("should return the deleted todo id", async () => {
     const deletedTodo = await deleteTodo(mockTodo);

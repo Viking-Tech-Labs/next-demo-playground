@@ -1,6 +1,6 @@
 import { rest } from "msw";
 
-export const handlers = [
+export const todoSuccessHandlers = [
   rest.get("/todos", (req, res, ctx) => {
     return res(
       ctx.status(200),

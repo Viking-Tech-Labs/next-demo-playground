@@ -1,10 +1,8 @@
 import { setupServer } from "msw/node";
 
-import { handlers } from "./handlers";
+export function useMockServer(handlers: any) {
+  const server = setupServer(...handlers);
 
-export const server = setupServer(...handlers);
-
-export function useFakeServer() {
   // Establish API mocking before all tests.
   beforeAll(() => server.listen());
 

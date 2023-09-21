@@ -1,8 +1,8 @@
-import { rest } from "msw";
-
 import updateTodo from "./updateTodo";
 
-import { useFakeServer } from "@/__tests__/__mocks__/server";
+import { useMockServer } from "@/__tests__/__mocks__/server";
+import { todoFailHandlers } from "@/__tests__/__mocks__/todoFailHandlers";
+import { todoSuccessHandlers } from "@/__tests__/__mocks__/todoSuccessHandlers";
 
 const mockTodo = {
   userId: 1,
@@ -12,7 +12,7 @@ const mockTodo = {
 };
 
 describe("updateTodo lib function", () => {
-  const server = useFakeServer();
+  useMockServer(todoSuccessHandlers);
 
   it("should return the updated todo item", async () => {
     const updatedTodo = await updateTodo(mockTodo);
@@ -23,13 +23,12 @@ describe("updateTodo lib function", () => {
       id: 1,
     });
   });
+});
+
+describe("failed updateTodo lib function", () => {
+  useMockServer(todoFailHandlers);
 
   it("should fail with an error", async () => {
-    server.use(
-      rest.put("/todos/1", (req, res, ctx) => {
-        return res(ctx.status(400));
-      }),
-    );
     expect.assertions(1);
     try {
       await updateTodo(mockTodo);

@@ -2,10 +2,11 @@ import { rest } from "msw";
 
 import fetchTodos from "./fetchTodos";
 
-import { useFakeServer } from "@/__tests__/__mocks__/server";
+import { useMockServer } from "@/__tests__/__mocks__/server";
+import { todoSuccessHandlers } from "@/__tests__/__mocks__/todoSuccessHandlers";
 
 describe("fetchTodos lib function", () => {
-  const server = useFakeServer();
+  const server = useMockServer(todoSuccessHandlers);
 
   it("should return the correct number of todo items", async () => {
     const todosArray = await fetchTodos();
