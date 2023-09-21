@@ -5,7 +5,7 @@ import { todoErrorHandlers } from "@/__tests__/__mocks__/todoFailHandlers";
 import { todoSuccessHandlers } from "@/__tests__/__mocks__/todoSuccessHandlers";
 
 describe("fetchTodos lib function", () => {
-  describe("success case", () => {
+  describe("Happy Path: HTTP 200", () => {
     useMockServer(todoSuccessHandlers);
 
     it("should return the correct number of todo items", async () => {
@@ -14,7 +14,7 @@ describe("fetchTodos lib function", () => {
     });
   });
 
-  describe("error case", () => {
+  describe("Sad Path: HTTP 400", () => {
     useMockServer(todoErrorHandlers);
 
     it("should return an empty array with an error", async () => {

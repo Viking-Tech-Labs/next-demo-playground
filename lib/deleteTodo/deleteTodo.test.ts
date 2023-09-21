@@ -12,7 +12,7 @@ const mockTodo = {
 };
 
 describe("deleteTodo lib function", () => {
-  describe("success case", () => {
+  describe("Happy Path: HTTP 200", () => {
     useMockServer(todoSuccessHandlers);
 
     it("should return the deleted todo id", async () => {
@@ -23,10 +23,12 @@ describe("deleteTodo lib function", () => {
     });
   });
 
-  describe("error case", () => {
+  describe("Sad Path: HTTP 400", () => {
     useMockServer(todoErrorHandlers);
 
     it("should fail with an error", async () => {
+      // Setup: Using 'expect.assertions' to ensure that the catch block gets executed
+      // If this assertion count is not met, the test will fail.
       expect.assertions(1);
 
       try {

@@ -7,6 +7,17 @@ import TodoContainer from "./TodoContainer";
 import { useMockServer } from "@/__tests__/__mocks__/server";
 import { todoSuccessHandlers } from "@/__tests__/__mocks__/todoSuccessHandlers";
 
+/**
+ * Test Suite for TodoContainer Component
+ *
+ * This suite aims to validate all critical user interactions within the TodoContainer component,
+ * such as adding, updating, and deleting todo items.
+ *
+ * Rather than using separate subsuites for happy and sad paths, this suite leverages
+ * `server.use` to override specific requests dynamically. This avoids side effects where
+ * failure in one type of request (e.g., fetch) would cause dependent tests (e.g., delete, update)
+ * to fail as well.
+ */
 describe("TodoContainer", () => {
   const server = useMockServer(todoSuccessHandlers);
 

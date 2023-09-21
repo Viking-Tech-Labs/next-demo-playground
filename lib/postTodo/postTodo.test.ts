@@ -5,7 +5,7 @@ import { todoErrorHandlers } from "@/__tests__/__mocks__/todoFailHandlers";
 import { todoSuccessHandlers } from "@/__tests__/__mocks__/todoSuccessHandlers";
 
 describe("postTodo lib function", () => {
-  describe("success case", () => {
+  describe("Happy Path: HTTP 200", () => {
     useMockServer(todoSuccessHandlers);
 
     it("should return the posted todo item", async () => {
@@ -19,10 +19,12 @@ describe("postTodo lib function", () => {
     });
   });
 
-  describe("error case", () => {
+  describe("Sad Path: HTTP 400", () => {
     useMockServer(todoErrorHandlers);
 
     it("should fail with an error", async () => {
+      // Setup: Using 'expect.assertions' to ensure that the catch block gets executed
+      // If this assertion count is not met, the test will fail.
       expect.assertions(1);
       try {
         await postTodo("write tests");
