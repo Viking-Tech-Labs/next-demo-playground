@@ -5,6 +5,9 @@ import { Todo } from "../TodoList";
 
 import TodoItem from "./TodoItem";
 
+import { useMockServer } from "@/__tests__/__mocks__/server";
+import { todoSuccessHandlers } from "@/__tests__/__mocks__/todoSuccessHandlers";
+
 // A mock Todo item to be used for testing
 const mockTodo: Todo = {
   userId: 1,
@@ -56,6 +59,8 @@ describe("AddTodo", () => {
   });
 
   describe("Behavior", () => {
+    useMockServer(todoSuccessHandlers);
+
     it("should call setTodos when checkbox clicked", async () => {
       render(<TodoItem todo={mockTodo} setTodos={mockSetTodos} />); // ARRANGE
 

@@ -1,6 +1,6 @@
 import { rest } from "msw";
 
-export const todoFailHandlers = [
+export const todoErrorHandlers = [
   rest.get("/todos", (req, res, ctx) => {
     return res(ctx.status(400));
   }),

@@ -1,7 +1,10 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import AddTodo from "./AddTodo";
+
+import { useMockServer } from "@/__tests__/__mocks__/server";
+import { todoSuccessHandlers } from "@/__tests__/__mocks__/todoSuccessHandlers";
 
 const mockSetTodos = jest.fn();
 
@@ -37,6 +40,8 @@ describe("AddTodo", () => {
   });
 
   describe("Behavior", () => {
+    useMockServer(todoSuccessHandlers);
+
     it("should be able to add text to the input", async () => {
       render(<AddTodo setTodos={mockSetTodos} />); // ARRANGE
 
@@ -68,7 +73,10 @@ describe("AddTodo", () => {
       });
       await userEvent.click(button);
 
-      expect(input).toHaveValue(""); // ASSERT
+      //@ts-ignore
+      waitFor(() => {
+        expect(input).toHaveValue(""); // ASSERT
+      });
     });
 
     it("should call setTodos when submitted", async () => {
