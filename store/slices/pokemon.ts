@@ -37,8 +37,10 @@ export const pokemonSlice = createSlice({
   initialState,
   reducers: {
     setFilteredPokemon(state, action: PayloadAction<string>) {
-      state.filteredPokemon = state.pokemon.filter(({ name }) =>
-        name.toLowerCase().includes(action.payload.toLowerCase()),
+      state.filteredPokemon = state.pokemon.filter(
+        ({ name, id }) =>
+          name.toLowerCase().includes(action.payload.toLowerCase()) ||
+          String(id).includes(action.payload.toLowerCase()),
       );
     },
     setLayout(state, action: PayloadAction<Layout>) {
