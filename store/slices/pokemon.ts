@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "store";
 
+export type Layout = "grid" | "list";
+
 interface Pokemon {
   id: number;
   name: string;
@@ -9,8 +11,8 @@ interface Pokemon {
 
 export type PokemonState = {
   pokemon: Pokemon[];
-  search: string;
   filteredPokemon: Pokemon[];
+  layout: Layout;
   pending: boolean;
   error: boolean;
 };
@@ -18,7 +20,7 @@ export type PokemonState = {
 const initialState: PokemonState = {
   pokemon: [],
   filteredPokemon: [],
-  search: "",
+  layout: "grid",
   pending: false,
   error: false,
 };
@@ -34,11 +36,13 @@ export const pokemonSlice = createSlice({
   name: "pokemon",
   initialState,
   reducers: {
-    setSearch(state, action: PayloadAction<string>) {
-      state.search = action.payload;
+    setFilteredPokemon(state, action: PayloadAction<string>) {
       state.filteredPokemon = state.pokemon.filter(({ name }) =>
-        name.toLowerCase().includes(state.search.toLowerCase()),
+        name.toLowerCase().includes(action.payload.toLowerCase()),
       );
+    },
+    setLayout(state, action: PayloadAction<Layout>) {
+      state.layout = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -58,7 +62,7 @@ export const pokemonSlice = createSlice({
   },
 });
 
-export const { setSearch } = pokemonSlice.actions;
-export const selectSearch = (state: RootState) => state.pokemon.search;
+export const { setFilteredPokemon, setLayout } = pokemonSlice.actions;
+export const selectLayout = (state: RootState) => state.pokemon.layout;
 export const selectFilteredPokemon = (state: RootState) =>
   state.pokemon.filteredPokemon;
