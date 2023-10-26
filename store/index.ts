@@ -11,7 +11,7 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   Action<string>
 >;
 
-export let store = null;
+export let store: any = null;
 
 export default function getStore(incomingPreloadState?: RootState) {
   store = configureStore({
