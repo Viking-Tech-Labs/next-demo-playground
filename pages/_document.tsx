@@ -2,7 +2,7 @@ import Document, { Head, Html, Main, NextScript } from "next/document";
 
 import cx from "classnames";
 
-import { inter,sfPro } from "./fonts";
+import { inter, sfPro } from "../styles/fonts";
 
 const AppConfig = {
   site_name: "Starter",
