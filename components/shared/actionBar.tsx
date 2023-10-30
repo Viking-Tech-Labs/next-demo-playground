@@ -1,4 +1,8 @@
+import { BsCart4 } from "react-icons/bs";
+import { GiRaspberry } from "react-icons/gi";
+import { LuBackpack } from "react-icons/lu";
 import { useDispatch, useSelector } from "react-redux";
+import Link from "next/link";
 
 import { selectSearch, setSearchAndFilter } from "store/slices/actionBar";
 
@@ -9,9 +13,18 @@ const ActionBar = () => {
   const search = useSelector(selectSearch);
 
   return (
-    <div className="mb-8 flex">
+    <div className="mb-8 flex items-center">
       <h1 className="text-5xl">Pokemart</h1>
-      <div className="ml-auto flex gap-4">
+
+      <div className="ml-8 flex items-center">
+        <Link href={"backpack"} className="ml-4 rounded-full p-2 shadow-lg">
+          <LuBackpack size={32} />
+        </Link>
+        <Link href={"backpack"} className="ml-4 rounded-full p-2 shadow-lg">
+          <GiRaspberry size={32} />
+        </Link>
+      </div>
+      <div className="ml-auto flex items-center justify-center gap-4">
         <input
           type="text"
           value={search}
@@ -21,6 +34,9 @@ const ActionBar = () => {
           className="rounded-md border p-2"
         />
         <GridToListToggle />
+        <Link href={"cart"} className="ml-4 rounded-full p-2 shadow-lg">
+          <BsCart4 size={32} />
+        </Link>
       </div>
     </div>
   );

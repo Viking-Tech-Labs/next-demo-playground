@@ -9,6 +9,14 @@ const nextConfig = {
   },
   images: {
     domains: ["lh3.googleusercontent.com", "vercel.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "jherr-pokemon.s3.us-west-1.amazonaws.com",
+        port: "",
+        pathname: "/**",
+      },
+    ],
   },
 };
 

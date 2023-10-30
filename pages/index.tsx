@@ -1,6 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import { useSelector } from "react-redux";
 import Head from "next/head";
+import Image from "next/image";
+import Link from "next/link";
 
 import getStore from "store";
 import {
@@ -24,20 +26,23 @@ function Home() {
       </Head>
       <ActionBar />
       <div className={`grid gap-4 ${layout === "grid" && "grid-cols-4"}`}>
-        {pokemon.map((p: any) => (
-          <div
+        {pokemon.slice(0, 200).map((p: any) => (
+          <Link
+            href={`/pokemon/${p.id}`}
             key={p.id}
-            className="grid cursor-pointer place-content-center justify-center gap-2 rounded-lg shadow-md"
+            className="grid cursor-pointer place-content-center justify-center gap-2 rounded-lg shadow-lg"
           >
-            <img
+            <Image
               alt={p.name}
               src={`https://jherr-pokemon.s3.us-west-1.amazonaws.com/${p.image}`}
-              className="max-h-[200px]"
+              width={164}
+              height={164}
+              quality={55}
             />
             <h2>
               {p.id} - {p.name}
             </h2>
-          </div>
+          </Link>
         ))}
       </div>
     </div>

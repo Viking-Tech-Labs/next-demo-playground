@@ -13,6 +13,9 @@ module.exports = {
   },
   theme: {
     extend: {
+      boxShadow: {
+        lg: "0 5px 15px -3px rgb(0 0 0 / 0.2), 0 4px 6px -4px rgb(0 0 0 / 0.2);",
+      },
       fontFamily: {
         display: ["var(--font-sf)", "system-ui", "sans-serif"],
         default: ["var(--font-inter)", "system-ui", "sans-serif"],
