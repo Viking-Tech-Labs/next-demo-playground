@@ -37,7 +37,7 @@ const initialState: ActionBarState = {
 };
 
 export const actionBarSlice = createSlice({
-  name: "pokemon",
+  name: "actionBar",
   initialState,
   reducers: {
     setSearch(state, action: PayloadAction<string>) {
@@ -57,7 +57,7 @@ export const setSearchAndFilter: any = (search: string) => {
   return (dispatch: AppDispatch, getState: RootState) => {
     dispatch(setSearch(search)); // Set the date range in ActionBarSlice
 
-    const state = getState(); // Get the current Redux state
+    const state = getState();
     const stateSearch = state.actionBar.search;
 
     dispatch(setFilteredPokemon(stateSearch)); // Update filteredData in DataSlice

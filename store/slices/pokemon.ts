@@ -3,7 +3,7 @@ import { RootState } from "store";
 
 export type Layout = "grid" | "list";
 
-interface Pokemon {
+export interface Pokemon {
   id: number;
   name: string;
   image: string;

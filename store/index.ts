@@ -2,6 +2,7 @@ import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
 
 import { actionBarSlice } from "./slices/actionBar";
 import { pokemonSlice } from "./slices/pokemon";
+import { trainerSlice } from "./slices/trainer";
 
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
@@ -19,6 +20,7 @@ export default function getStore(incomingPreloadState?: RootState) {
     reducer: {
       pokemon: pokemonSlice.reducer,
       actionBar: actionBarSlice.reducer,
+      trainer: trainerSlice.reducer,
     },
     preloadedState: incomingPreloadState,
   });
