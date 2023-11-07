@@ -1,8 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppDispatch, RootState } from "store";
 
-import { setFilteredPokemon } from "./pokemon";
-
 type PokemonType =
   | "all"
   | "normal"
@@ -60,11 +58,9 @@ export const setSearchAndFilter: any = (search: string) => {
     const state = getState();
     const stateSearch = state.actionBar.search;
 
-    dispatch(setFilteredPokemon(stateSearch)); // Update filteredData in DataSlice
+    // dispatch(setFilteredPokemon(stateSearch)); // Update filteredData in DataSlice
   };
 };
 
 export const { setSearch } = actionBarSlice.actions;
 export const selectSearch = (state: RootState) => state.actionBar.search;
-export const selectFilteredPokemon = (state: RootState) =>
-  state.pokemon.filteredPokemon;

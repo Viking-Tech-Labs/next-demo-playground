@@ -13,7 +13,7 @@ const ActionBar = () => {
   const search = useSelector(selectSearch);
 
   return (
-    <div className="mb-8 flex items-center">
+    <div className="absolute inset-0 bottom-auto flex h-[80px] items-center bg-white p-4">
       <h1 className="text-5xl">Pokemart</h1>
 
       <div className="ml-8 flex items-center">
