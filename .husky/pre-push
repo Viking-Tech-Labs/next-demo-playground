@@ -1,0 +1,103 @@
+#!/usr/bin/env sh
+[ -n "$CI" ] && exit 0
+
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Define ANSI color codes
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
+# -- TEST VALIDATION STEP:
+
+# Run tests and check for success
+if yarn test; then
+	echo "${GREEN}Tests have ran successfully.${NC}\n"
+else
+	echo "${RED}Tests failed. Please fix the errors and try again.${NC}\n"
+	exit 1
+fi
+
+# -- BUILD VALIDATION STEP:
+
+# Run build and check for success
+if yarn build; then
+	echo "${GREEN}Build has ran successfully.${NC}\n"
+else
+	echo "\n${RED}Build failed. Please fix the errors and try again.${NC}\n"
+	exit 1
+fi
+
+# -- BRANCH NAME VALIDATION STEP:
+
+# This section checks if the current branch name adheres to the required naming convention.
+# The branch name must start with 'VIK-' followed by up to 5 digits, and can optionally include
+# a short description (consisting of lowercase letters, numbers, dots, underscores, or hyphens).
+# If the branch name does not meet these criteria, an error message is displayed with examples of valid names,
+# and the script exits with an error status, preventing further actions like commits or pushes.
+
+local_branch="$(git rev-parse --abbrev-ref HEAD)"
+
+# NOTE: grep doesn't have the \d escape, you'll need to use [0-9] instead.
+valid_branch_regex="^VIK-([0-9]{0,5})(-[a-z0-9._-]+)?$"
+
+# Custom message with colors and examples
+SUCCESS_MESSAGE="\n${GREEN}Your branch name is valid.${NC}\n"
+
+ERROR_MESSAGE=$(
+	cat <<-END
+		\n${RED}There is something wrong with your branch name.${NC}\n
+		Branch names in this project must adhere to this contract:\n\n
+		${YELLOW}========================================\n   $valid_branch_regex   \n========================================\n${NC}
+		\nFor example, a valid branch name could be either:\n\n
+		${GREEN}VIK-1111${NC} or ${GREEN}VIK-1111-description${NC}\n
+		\nYour commit will be rejected. You should rename your branch to a valid name and try again.\n
+	END
+)
+
+if echo "$local_branch" | grep -Eq "$valid_branch_regex"; then
+	echo "$SUCCESS_MESSAGE"
+else
+	echo "$ERROR_MESSAGE"
+	exit 1
+fi
+
+# -- BRANCH IS REBASED VALIDATION STEP:
+
+SUCCESS_MESSAGE="\n${GREEN}Branch is up to date${NC}\n"
+ERROR_MESSAGE="\n${RED}Your branch is not rebased to origin/main. Please rebase your branch.${NC}\n"
+
+# Check if the current branch is rebased to origin/main
+mainCommit=$(git rev-parse origin/main)
+latestCommonCommit=$(git merge-base origin/main HEAD)
+if [ "$mainCommit" != "$latestCommonCommit" ]; then
+	echo "$ERROR_MESSAGE"
+	exit 1
+else
+	echo "$SUCCESS_MESSAGE"
+fi
+
+# -- COMMIT VALIDATION STEP:
+
+# validates wether the branch has only one commit ahead of main, after rebasing
+
+SUCCESS_MESSAGE="\n${GREEN}Commits are squashed${NC}\n"
+ERROR_MESSAGE="\n${RED}Your branch should only have one squashed commit. Current commit count: $commitCount.${NC}\n"
+
+# Check if the branch has only one squashed commit
+commitCount=$(git rev-list --count HEAD ^origin/main)
+if [ "$commitCount" -ne 1 ]; then
+	echo "$ERROR_MESSAGE"
+
+	echo "Do you want to proceed anyway? (y/n)"
+	read user_input
+	if [ "$user_input" != "y" ]; then
+		echo "Push aborted."
+		exit 1
+	fi
+else
+	echo "$SUCCESS_MESSAGE"
+fi
+
+exit 0
