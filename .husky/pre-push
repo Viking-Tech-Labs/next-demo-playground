@@ -82,22 +82,24 @@ fi
 
 # validates wether the branch has only one commit ahead of main, after rebasing
 
-SUCCESS_MESSAGE="\n${GREEN}Commits are squashed${NC}\n"
-ERROR_MESSAGE="\n${RED}Your branch should only have one squashed commit. Current commit count: $commitCount.${NC}\n"
-
-# Check if the branch has only one squashed commit
-commitCount=$(git rev-list --count HEAD ^origin/main)
-if [ "$commitCount" -ne 1 ]; then
-	echo "$ERROR_MESSAGE"
-
-	echo "Do you want to proceed anyway? (y/n)"
-	read user_input
-	if [ "$user_input" != "y" ]; then
-		echo "Push aborted."
-		exit 1
-	fi
-else
-	echo "$SUCCESS_MESSAGE"
-fi
+# NOTE: checks if the branch has only one squashed commit
+#
+# SUCCESS_MESSAGE="\n${GREEN}Commits are squashed${NC}\n"
+# ERROR_MESSAGE="\n${RED}Your branch should only have one squashed commit. Current commit count: $commitCount.${NC}\n"
+#
+# # Check if the branch has only one squashed commit
+# commitCount=$(git rev-list --count HEAD ^origin/main)
+# if [ "$commitCount" -ne 1 ]; then
+# 	echo "$ERROR_MESSAGE"
+#
+# 	echo "Do you want to proceed anyway? (y/n)"
+# 	read user_input
+# 	if [ "$user_input" != "y" ]; then
+# 		echo "Push aborted."
+# 		exit 1
+# 	fi
+# else
+# 	echo "$SUCCESS_MESSAGE"
+# fi
 
 exit 0
